@@ -1,0 +1,35 @@
+{
+  "name": "seng-yang-home-care",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Seng Yang Home Care sample website with secure administration and editable content/media",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kyang11/SengYangHomeCare.git"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@vercel/blob": "^2.8.0",
+    "sanitize-html": "2.18.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "eslint": "10.14.0",
+    "playwright": "^1.63.0",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "node scripts/server.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "build": "node scripts/build.js",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "node tests/browser.js",
+    "bootstrap": "node scripts/bootstrap.js"
+  },
+  "overrides": {
+    "zod": "^4.6.6",
+    "minimatch": "^11.0.1"
+  }
+}

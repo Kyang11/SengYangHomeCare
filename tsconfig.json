@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "allowJs": true, "checkJs": true, "noEmit": true, "target": "ES2022", "module": "commonjs",
+    "skipLibCheck": true, "strict": false, "types": ["node"]
+  },
+  "include": ["scripts/server.js", "scripts/build.js", "api/media.js"]
+}

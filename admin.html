@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — Seng Yang Home Care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css?v=2" />
+<link rel="stylesheet" href="css/admin.css?v=3" />
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header" id="siteHeader">
+  <div class="container nav-wrap">
+    <a href="index.html" class="logo">
+      <span class="logo-mark"><img data-media="logo" src="assets/logo-placeholder.svg" alt="Seng Yang sample logo" width="48" height="48"></span>
+      <span class="logo-text">Seng Yang Home Care<small>Admin Panel</small></span>
+    </a>
+    <nav class="nav" id="primaryNav">
+      <a href="index.html">View Site</a>
+      <a href="training.html">Training</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="sample-notice" data-no-edit>Sample website · All business details, service descriptions, hours and credentials are editable placeholders.</div>
+  <div class="admin-login" id="adminLogin" style="display:none;">
+    <div class="admin-login-box">
+      <h2>Welcome back</h2><p>Sign in to manage Seng Yang Home Care.</p><p class="setup-note">First activation is completed by the project owner using the secure bootstrap steps in README.md. No default password or account is included.</p>
+      <label for="adminUser">Email or username</label><input type="text" id="adminUser" placeholder="Email or username" autocomplete="username" />
+      <label for="adminPass">Password</label><input type="password" id="adminPass" placeholder="Password" autocomplete="current-password" />
+      <button class="btn btn-primary" id="adminLoginBtn">Sign In</button>
+      <p style="margin-top:10px;font-size:0.85rem;color:var(--ink-soft);">After signing in you can edit any page: open the site and click <strong>Edit this page</strong>.</p>
+      <p id="adminLoginError" style="color:var(--coral);margin-top:8px;display:none;"></p>
+    </div>
+  </div>
+
+  <div id="adminApp" style="display:none;">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="admin-sidebar-top">
+        <span class="admin-sidebar-brand">Admin</span>
+        <span class="admin-sidebar-user" id="adminWho"></span>
+      </div>
+      <nav class="admin-sidebar-nav">
+        <a href="#" class="admin-tab active" data-panel="dashboard">Dashboard</a>
+        <a href="#" class="admin-tab admin-only" data-panel="users">User Management</a>
+        <a href="#" class="admin-tab can-edit" data-panel="media">Media Library</a>
+        <a href="#" class="admin-tab" data-panel="content">Content Editor</a>
+        <a href="#" class="admin-tab" data-panel="quizzes">Quiz Manager</a>
+        <a href="#" class="admin-tab" data-panel="results">Training Results</a>
+        <a href="#" class="admin-tab" data-panel="documents">Documents</a>
+        <a href="#" class="admin-tab" data-panel="account">My Account</a>
+        <a href="index.html?edit=1" class="admin-edit-site can-edit">✎ Edit Website</a>
+      </nav>
+      <div class="admin-sidebar-bottom">
+        <button class="btn" id="adminLogoutBtn" style="width:—;">Sign Out</button>
+      </div>
+    </aside>
+    <div class="admin-main" id="adminMain">
+
+      <!-- Dashboard -->
+      <section class="admin-panel active" id="panel-dashboard">
+        <h2>Dashboard</h2><p class="form-demo-note">Page content and media are saved on the server. Quiz results, quiz drafts, documents and activity below are browser-only demo tools inherited from the reference. Demo forms do not collect or submit data.</p>
+        <div class="admin-stats" id="adminStats">
+          <div class="admin-stat-card admin-only"><span class="admin-stat-num" id="statUsers">0</span><span>Users</span></div>
+          <div class="admin-stat-card"><span class="admin-stat-num" id="statResults">0</span><span>Quiz Results</span></div>
+          <div class="admin-stat-card"><span class="admin-stat-num" id="statPassed">0</span><span>Certificates</span></div>
+          <div class="admin-stat-card"><span class="admin-stat-num" id="statQuizzes">0</span><span>Quizzes</span></div>
+          <div class="admin-stat-card"><span class="admin-stat-num" id="statSubmissions">0</span><span>Form Submissions</span></div>
+        </div>
+        <div class="admin-card">
+          <h3>Recent Activity</h3>
+          <div id="dashboardRecentResults"><p style="color:var(--ink-soft);">No activity yet.</p></div>
+        </div>
+      </section>
+
+      <!-- Users -->
+      <section class="admin-panel" id="panel-users">
+        <h2>User Management</h2>
+        <p style="margin-bottom:16px;color:var(--ink-soft);">Add people who can sign in. <strong>Admin</strong>: edit the website and manage users. <strong>Editor</strong>: edit the website. <strong>Viewer</strong>: can sign in and view the dashboard only.</p>
+        <div class="admin-card">
+          <h3>Add User</h3>
+          <div class="admin-form-row">
+            <input type="text" id="userNameInput" placeholder="Full name" autocomplete="off" />
+            <input type="text" id="userEmailInput" placeholder="Email or username" autocomplete="off" />
+            <select id="userRoleInput"><option value="editor">Editor</option><option value="admin">Admin</option><option value="viewer">Viewer</option></select>
+          </div>
+          <div class="admin-form-row">
+            <input type="password" id="userPassInput" placeholder="Password (min 14 characters)" autocomplete="new-password" />
+            <button class="btn btn-outline" id="genPassBtn" type="button">Generate</button>
+            <button class="btn btn-primary" id="addUserBtn">Add User</button>
+          </div>
+          <p id="userMsg" class="admin-msg" style="display:none;"></p>
+        </div>
+        <div class="admin-card">
+          <h3>People who can sign in</h3>
+          <div id="userList"><p style="color:var(--ink-soft);">Loading…</p></div>
+        </div>
+      </section>
+
+      <!-- My Account -->
+      <section class="admin-panel" id="panel-account">
+        <h2>My Account</h2>
+        <div class="admin-card">
+          <p id="accountInfo" style="margin-bottom:12px;"></p>
+          <div id="accountPwForm">
+            <h3>Change my password</h3>
+            <div class="admin-form-row">
+              <input type="password" id="curPassInput" placeholder="Current password" autocomplete="current-password" />
+              <input type="password" id="newPassInput" placeholder="New password (min 14)" autocomplete="new-password" />
+              <button class="btn btn-primary" id="changePassBtn">Change Password</button>
+            </div>
+          </div>
+          <p id="accountMsg" class="admin-msg" style="display:none;"></p>
+        </div>
+      </section>
+
+      <section class="admin-panel" id="panel-media"><h2>Media Library</h2><p>Manage the shared logo, page images and eleven training video holders. Upload images (JPG, PNG, WebP, GIF; 3 MB maximum), or paste an HTTPS image URL. Videos use YouTube links or hosted MP4/WebM URLs; large videos stay with your video host. Clear a field to restore its placeholder.</p><form id="mediaForm" class="admin-card"><div id="mediaFields"></div><button class="btn btn-primary" type="submit">Save media</button><p id="mediaMessage" role="status"></p></form></section>
+      <!-- Content Editor -->
+      <section class="admin-panel" id="panel-content">
+        <h2>Page Content</h2><p>Edit the public pages directly, then choose Save. Header and footer changes apply across the site.</p><div class="page-edit-links"><a class="btn btn-ghost can-edit" href="index.html?edit=1">Edit Home</a><a class="btn btn-ghost can-edit" href="about.html?edit=1">Edit About</a><a class="btn btn-ghost can-edit" href="services.html?edit=1">Edit Services</a><a class="btn btn-ghost can-edit" href="training.html?edit=1">Edit Training</a><a class="btn btn-ghost can-edit" href="employment.html?edit=1">Edit Employment</a><a class="btn btn-ghost can-edit" href="contact.html?edit=1">Edit Contact</a></div><h3>Browser activity log</h3>
+        <p style="margin-bottom:16px;color:var(--ink-soft);">Tracks changes made across the site (page edits, form submissions).</p>
+        <div class="admin-card">
+          <div id="contentLog"><p style="color:var(--ink-soft);">No changes tracked yet.</p></div>
+        </div>
+      </section>
+
+      <!-- Quizzes -->
+      <section class="admin-panel" id="panel-quizzes">
+        <h2>Quiz Manager</h2>
+        <div class="admin-card">
+          <h3>Create New Quiz</h3>
+          <div class="admin-form-row">
+            <input type="text" id="quizTitleInput" placeholder="Quiz Title" style="flex:1;" />
+            <input type="number" id="quizQuestionCount" placeholder="# of Questions" style="width:100px;" />
+            <button class="btn btn-primary" id="createQuizBtn">Create</button>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3>Existing Quizzes</h3>
+          <div id="quizList"></div>
+        </div>
+        <div class="admin-card" id="quizEditorCard" style="display:none;">
+          <h3>Edit Quiz: <span id="quizEditorTitle"></span></h3>
+          <div id="quizEditor"></div>
+          <button class="btn btn-primary" id="saveQuizBtn" style="margin-top:12px;">Save Quiz</button>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section class="admin-panel" id="panel-results">
+        <h2>Training Results</h2>
+        <div class="admin-card">
+          <div id="resultsList"></div>
+        </div>
+      </section>
+
+      <!-- Documents -->
+      <section class="admin-panel" id="panel-documents">
+        <h2>Documents</h2>
+        <p style="margin-bottom:16px;color:var(--ink-soft);">User-submitted applications and documents.</p>
+        <div class="admin-card">
+          <h3>Upload Document</h3>
+          <div class="admin-form-row">
+            <input type="text" id="docTitleInput" placeholder="Document Title" />
+            <input type="text" id="docAuthorInput" placeholder="Submitted By" />
+            <input type="file" id="docFileInput" />
+            <button class="btn btn-primary" id="uploadDocBtn">Upload</button>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3>All Documents</h3>
+          <div id="documentsList"></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<script src="js/admin.js?v=3"></script>
+<script src="js/media-admin.js"></script>
+</body>
+</html>
