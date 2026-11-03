@@ -274,8 +274,7 @@ document.getElementById('addUserBtn').onclick = function() {
 function refreshAccount() {
   if (!currentUser) return;
   document.getElementById('accountInfo').innerHTML = 'Signed in as <strong>' + esc(currentUser.user) + '</strong> · Role: <strong>' + ROLE_LABEL[currentUser.role] + '</strong>';
-  document.getElementById('accountPwForm').style.display = currentUser.builtIn ? 'none' : 'block';
-  if (currentUser.builtIn) msg('accountMsg', 'You are a built-in admin. Your password is set in Vercel (Settings → Environment Variables → ADMIN_PASSWORD_HASH).');
+  document.getElementById('accountPwForm').style.display = 'block';
 }
 
 document.getElementById('changePassBtn').onclick = function() {

@@ -99,7 +99,9 @@ async function checkLogin(username, password) {
   const name = String(username || '').trim().toLowerCase();
   const env = envUsers();
   if (env[name] !== undefined) {
-    return checkHash(password || '', env[name]) ? { username: name, name: '', role: 'admin', builtIn: true, pv: fingerprint(env[name]) } : null;
+    const saved = (await loadStored(true)).data.users.find(u => u.username === name && u.bootstrapVersion === fingerprint(env[name]));
+    const hash = saved ? saved.hash : env[name];
+    return checkHash(password || '', hash) ? { username: name, name: '', role: 'admin', builtIn: true, pv: fingerprint(hash) } : null;
   }
   let stored = [];
   try { stored = (await loadStored(true)).data.users; } catch (e) { stored = []; }
@@ -112,7 +114,8 @@ async function checkLogin(username, password) {
 async function sessionUser(username, pv) {
   const env = envUsers();
   if (env[username] !== undefined) {
-    return fingerprint(env[username]) === pv ? { username, name: '', role: 'admin', builtIn: true } : null;
+    const saved = (await loadStored(true)).data.users.find(u => u.username === username && u.bootstrapVersion === fingerprint(env[username]));
+    return fingerprint(saved ? saved.hash : env[username]) === pv ? { username, name: '', role: 'admin', builtIn: true } : null;
   }
   const stored = (await loadStored(true)).data.users;
   const u = stored.find(x => x.username === username);
@@ -182,11 +185,18 @@ async function deleteUser(username, by) {
 }
 
 async function changeOwnPassword(username, current, next) {
-  if (envUsers()[username] !== undefined) throw userError('Your password is set in Vercel (ADMIN_PASSWORD_HASH). Change it there.');
+  const bootstrapHash = envUsers()[username];
   const err = validate({ password: next }, false);
   if (err || !next) throw userError(err || 'Enter a new password.');
   return mutate(store => {
-    const u = store.users.find(x => x.username === username);
+    let u = store.users.find(x => x.username === username);
+    if (bootstrapHash) {
+      const activeHash = u && u.bootstrapVersion === fingerprint(bootstrapHash) ? u.hash : bootstrapHash;
+      if (!checkHash(current || '', activeHash)) throw userError('Your current password is not correct.');
+      if (!u) { u = { username, role: 'admin', builtIn: true }; store.users.push(u); }
+      u.hash = activeHash;
+      u.bootstrapVersion = fingerprint(bootstrapHash);
+    }
     if (!u || !checkHash(current || '', u.hash)) throw userError('Your current password is not correct.');
     u.hash = hashPassword(next);
     u.updatedAt = new Date().toISOString();

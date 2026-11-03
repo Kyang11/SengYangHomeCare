@@ -63,6 +63,16 @@ test('real HTTP auth, permissions, private media, saves and session revocation',
     cookie = adminCookie;
     const blocked = await fetch(base + '/api/media', { method: 'PUT', headers: { Cookie: cookie, 'X-SYH-CMS': '1', Origin: 'https://evil.example' }, body: '{}' });
     assert.equal(blocked.status, 403);
+    const newPassword = crypto.randomBytes(24).toString('hex');
+    assert.equal((await api('users', 'POST', { action: 'password', currentPassword: 'wrong', newPassword })).status, 400);
+    const changed = await api('users', 'POST', { action: 'password', currentPassword: fixture.password, newPassword });
+    assert.equal(changed.status, 200);
+    assert.equal((await (await api('me')).json()).user, null);
+    cookie = changed.headers.get('set-cookie').split(';')[0];
+    assert.equal((await (await api('me')).json()).role, 'admin');
+    const userStore = require('../api/_lib/users');
+    assert.equal(await userStore.checkLogin(process.env.ADMIN_EMAIL, fixture.password), null);
+    assert.equal((await userStore.checkLogin(process.env.ADMIN_EMAIL, newPassword)).role, 'admin');
     process.env.ADMIN_PASSWORD_HASH = require('../api/_lib/users').hashPassword(crypto.randomBytes(24).toString('hex'));
     assert.equal((await (await api('me')).json()).user, null);
     for (const doc of fixture.documents.values()) assert.equal(doc.value.includes(fixture.password), false);
