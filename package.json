@@ -30,7 +30,10 @@
   },
   "overrides": {
     "zod": "^4.6.6",
-    "minimatch": "^11.0.1"
+    "minimatch": "^11.0.1",
+    "sanitize-html": {
+      "htmlparser2": "10.1.0"
+    }
   },
   "engines": {
     "node": "24.x"
