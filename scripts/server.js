@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const ROOT = path.resolve(__dirname, '..');
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png' };
-const API = ['login', 'logout', 'me', 'users', 'content', 'upload', 'image', 'media'];
+const API = ['login', 'logout', 'me', 'users', 'content', 'upload', 'image', 'media', 'themes'];
 
 function createServer() {
   return http.createServer(async (req, res) => {

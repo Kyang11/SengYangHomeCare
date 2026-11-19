@@ -25,6 +25,7 @@ test('real HTTP auth, permissions, private media, saves and session revocation',
   try {
     assert.equal((await api('content', 'PUT', { changes: {} }, false)).status, 401);
     assert.equal((await api('users', 'POST', {}, false)).status, 401);
+    assert.equal((await api('themes', 'PUT', { target: 'header', preset: 'navy' }, false)).status, 401);
     assert.equal((await api('media', 'PUT', { assets: {} }, false)).status, 401);
     assert.equal((await api('upload', 'POST', {}, false)).status, 401);
     assert.equal((await api('login', 'POST', {}, false, false)).status, 403);
@@ -39,6 +40,11 @@ test('real HTTP auth, permissions, private media, saves and session revocation',
     const setCookie = login.headers.get('set-cookie');
     assert.match(setCookie, /HttpOnly; SameSite=Lax/); cookie = setCookie.split(';')[0];
     assert.equal((await (await api('me')).json()).role, 'admin');
+    assert.equal((await api('themes', 'PUT', { target: 'header', preset: 'forest' })).status, 200);
+    assert.equal((await (await api('themes', 'GET', null, false)).json()).sections.header, 'forest');
+    assert.equal((await api('themes', 'PUT', { target: '__proto__', preset: 'forest' })).status, 400);
+    assert.equal((await api('themes', 'PUT', { target: 'index:s0', preset: 'invalid' })).status, 400);
+    assert.equal((await api('themes', 'PUT', { target: 'header', preset: null })).status, 200);
     const changes = { index: { 't:0': { o: 'original', h: '<strong>Published</strong><script>bad()</script>' } } };
     assert.equal((await api('content', 'PUT', { changes })).status, 200);
     assert.equal((await (await api('content?fresh=1', 'GET', null, false)).json()).pages.index['t:0'].h, '<strong>Published</strong>');
@@ -57,6 +63,7 @@ test('real HTTP auth, permissions, private media, saves and session revocation',
     assert.equal((await api('content', 'PUT', { changes })).status, 403);
     assert.equal((await api('media', 'PUT', { assets: {} })).status, 403);
     assert.equal((await api('users')).status, 403);
+    assert.equal((await api('themes', 'PUT', { target: 'header', preset: 'navy' })).status, 403);
     const viewerCookie = cookie; cookie = adminCookie;
     assert.equal((await api('users', 'POST', { action: 'delete', username: 'viewer@example.test' })).status, 200);
     cookie = viewerCookie; assert.equal((await (await api('me')).json()).user, null);
