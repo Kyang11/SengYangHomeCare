@@ -1505,3 +1505,50 @@ em { font-style: italic; color: var(--coral); }
 .footer-grid a:hover { color: #bcd9ff; }
 :focus-visible { outline: 3px solid #2459c4; outline-offset: 4px; }
 .site-footer :focus-visible, .why-us :focus-visible, .cta-band :focus-visible { outline-color: #bcd9ff; }
+/* Navy header with a larger, white-backed logo holder. */
+.site-header,
+.employment-body .site-header {
+  background: #142b4a;
+  border-bottom-color: #355071;
+}
+.site-header .nav-wrap { gap: 24px; }
+.site-header .logo { min-width: 0; }
+.site-header .logo-mark {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid #d8e4f3;
+}
+.site-header .logo-text,
+.site-header .logo:hover .logo-text { color: #fff; line-height: 1.25; }
+.site-header .logo-text small { color: #c9dcf5; }
+.site-header .nav { gap: 4px; }
+.site-header .nav a { color: #fff; padding: 10px 14px; }
+.site-header .nav a.active { color: #c4dcff; background: #203e63; }
+.site-header .nav a:hover { color: #fff; background: #28558a; }
+.site-header .nav a.btn-nav { color: #142b4a; background: #fff; }
+.site-header .nav a.btn-nav:hover { color: #142b4a; background: #dceaff; }
+.site-header .nav a.nav-login { border-color: #c4dcff; }
+.site-header .nav-toggle span { background: #fff; }
+.site-header :focus-visible { outline-color: #bcd9ff; }
+@media (max-width: 1100px) {
+  .site-header .nav-toggle { display: flex; flex-shrink: 0; }
+  .site-header .nav {
+    position: absolute; top: 100%; left: 16px; right: 16px;
+    background: #142b4a; border: 1px solid #355071;
+    flex-direction: column; align-items: stretch; padding: 14px;
+    border-radius: var(--radius); box-shadow: var(--shadow-md);
+    transform: translateY(-12px); opacity: 0; pointer-events: none;
+  }
+  .site-header .nav.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .site-header .nav a { text-align: left; }
+  .site-header .nav a.btn-nav { text-align: center; }
+}
+@media (max-width: 480px) {
+  .site-header .logo-mark { width: 64px; height: 64px; border-radius: 12px; }
+  .site-header .nav-wrap { gap: 12px; padding: 12px 16px; }
+  .site-header .logo { gap: 10px; }
+  .site-header .logo-text { font-size: 16px; }
+}
