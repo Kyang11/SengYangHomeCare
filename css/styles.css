@@ -1557,3 +1557,6 @@ em { font-style: italic; color: var(--coral); }
 
 /* Remove the uploaded logo's white backdrop while preserving its colored artwork. */
 .site-header .logo-mark img { filter: url("../assets/logo-blend.svg?v=2#remove-white"); }
+
+/* Never paint the sample logo while the saved business logo is loading. */
+img[data-media="logo"] { visibility: hidden; }
