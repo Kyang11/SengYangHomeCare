@@ -1556,4 +1556,4 @@ em { font-style: italic; color: var(--coral); }
 }
 
 /* Remove the uploaded logo's white backdrop while preserving its colored artwork. */
-.site-header .logo-mark img { filter: url("../assets/logo-blend.svg#remove-white"); }
+.site-header .logo-mark img { filter: url("../assets/logo-blend.svg?v=2#remove-white"); }
